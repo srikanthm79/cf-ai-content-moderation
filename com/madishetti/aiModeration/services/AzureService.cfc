@@ -171,7 +171,8 @@ component {
             return 1.0;
         }
         
-        // Normalize severity to 0-1 range
+        // Invert the confidence score because:
+        // AI Moderation Manager expects 0 (low confidence) to 1 (high confidence)
         var normalizedMaxSeverity = 1 - (maxSeverity / 6);
         
         return normalizedMaxSeverity;

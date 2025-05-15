@@ -32,18 +32,18 @@ The system provides a unified confidence scoring system that combines results fr
   - 2 = Low severity (66% confidence)
   - 4 = Medium severity (33% confidence)
   - 6 = High severity (0% confidence)
-- Confidence is calculated as: `1 - (maxSeverity / 6)`
+- Confidence is calculated as: `1 - (maxSeverity / 6)` This inversion ensures that the score aligns with the AI Moderation Manager's expectations, where 0 represents low confidence and 1 represents high confidence
 
 ### Combined Confidence
 
 When multiple services are enabled:
 1. Each service provides its own confidence score
 2. Scores are averaged to create a final confidence percentage
-3. The result is formatted with one decimal place (e.g., "95.5%")
+3. Format confidence as percentage with 1 decimal place (e.g., "95.5%")
 
 Example confidence calculations:
 - Single service (Google): 0.8 risk → 20% confidence
-- Single service (Azure): severity 4 → 33% confidence
+- Single service (Azure): Max severity 4 → 33% confidence
 - Both services: (20% + 33%) / 2 = 26.5% confidence
 
 ## Azure Content Safety Severity Levels
@@ -64,7 +64,7 @@ You can configure the minimum severity threshold in your `aiConfig.json`:
 ```
 
 The threshold value determines the minimum severity level at which content is considered inappropriate. For example:
-- Setting to 2 means content with Low severity or higher will be flagged
+- Setting to 2 means content with Low or Meidum or higher will be flagged
 - Setting to 4 means only Medium and High severity content will be flagged
 - Setting to 6 means only High severity content will be flagged
 
@@ -88,7 +88,6 @@ The system uses a JSON configuration file (`config/aiConfig.json`). Here's an ex
     "AzureSeverityThreshold": 2,
     "googlePerspectiveProbabilityThreshold": 0.5,
     "options": {
-        "language": "en",
         "includeRawResults": true
     }
 }
@@ -200,8 +199,7 @@ aiModeration = createObject("component", "com.madishetti.aiModeration.AIModerati
 // Analyze text content
 result = aiModeration.moderateContent(
     content = "Your text content here",
-    contentType = "text",
-    language = "en"  // Optional: defaults to config's language setting
+    contentType = "text"
 );
 
 // Handle the results
