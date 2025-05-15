@@ -1,0 +1,16 @@
+{
+    "name":"cf-ai-content-moderation",
+    "version":"1.0.0",
+    "app":{
+        "cfengine":"adobe@2021"
+    },
+    "profile":"development",
+    "web":{
+        "http":{
+            "port":"8100"
+        },
+        "rewrites":{
+            "enabled":"false"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "cf-ai-content-moderation",
+    "version": "1.0.0",
+    "description": "AI-powered content moderation library for Adobe ColdFusion and Lucee",
+    "author": "Srikanth Madishetti",
+    "license": "MIT",
+    "type": "projects",
+    "dependencies": {},
+    "devDependencies": {}
+} 

@@ -1,0 +1,12 @@
+{
+    "enableGooglePerspective": true,
+    "enableAzureModerator": true,
+    "googleAPIKey": "YOUR_GOOGLE_API_KEY",
+    "azureEndpoint": "YOUR_AZURE_ENDPOINT",
+    "azureAPIKey": "YOUR_AZURE_API_KEY",
+    "AzureSeverityThreshold": 2,
+    "googlePerspectiveProbabilityThreshold":0.5,
+    "options": {
+        "includeRawResults": true
+    }
+}
