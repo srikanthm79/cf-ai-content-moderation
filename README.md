@@ -8,7 +8,6 @@ A simple and straight-forward library to setup and manage AI-powered content mod
   - Google Perspective API for text analysis
   - Azure Content Safety for both text and image analysis
 - **Flexible Configuration**: Easy-to-use JSON configuration file
-- **Comprehensive Error Handling**: Detailed error reporting and exception handling
 - **Content Type Support**: Analyze both text and images
 - **Configurable Thresholds**: Customize moderation sensitivity
 - **Raw Results Option**: Access detailed API responses when needed
@@ -45,28 +44,6 @@ Example confidence calculations:
 - Single service (Google): 0.8 risk → 20% confidence
 - Single service (Azure): severity 4 → 33% confidence
 - Both services: (20% + 33%) / 2 = 26.5% confidence
-
-## Azure Content Safety Severity Levels
-
-Azure Content Safety uses a severity scale to classify content:
-
-- **Safe (0)**: Content may reference sensitive topics like violence, self-harm, sexual content, or hate speech, but in a professional context (e.g., journalistic, scientific, medical) suitable for most audiences.
-- **Low (2)**: Content may express prejudiced, judgmental, or opinionated views, include offensive language, stereotyping, or low-intensity depictions of harm.
-- **Medium (4)**: Content may use offensive, mocking, or intimidating language towards specific identity groups, depict instructions or fantasies related to harm, or glorify harm at medium intensity.
-- **High (6)**: Content may display explicit and severe harmful instructions, actions, damage, or abuse, including endorsement, glorification, promotion of severe harmful acts, or extreme forms of harm.
-
-### Configuring Azure Severity
-
-You can configure the minimum severity threshold in your `aiConfig.json`:
-
-```json
-"AzureSeverityThreshold": 2    // Minimum severity to consider content inappropriate
-```
-
-The threshold value determines the minimum severity level at which content is considered inappropriate. For example:
-- Setting to 2 means content with Low severity or higher will be flagged
-- Setting to 4 means only Medium and High severity content will be flagged
-- Setting to 6 means only High severity content will be flagged
 
 ## Installation
 
@@ -119,14 +96,24 @@ The system uses a JSON configuration file (`config/aiConfig.json`). Here's an ex
       - THREAT
     - The threshold is applied to each attribute independently
     - If any attribute exceeds the threshold, the content is marked in flags
-    - The confidence score is calculated based on the highest attribute score
+    - The confidence score and Appropriate is calculated based on the TOXICITY attribute score
 
 - **Azure Configuration**:
   - `AzureSeverityThreshold`: Minimum severity level to consider content inappropriate (0-6)
-    - 0: Safe content
-    - 2: Low severity (default)
-    - 4: Medium severity
-    - 6: High severity
+    - Evaluates content across four categories: "Hate", "SelfHarm", "Sexual", and "Violence"
+    - Each category is assigned a severity level (0-6) independently
+    - The highest severity level across all categories determines the overall severity
+    - The overall severity is compared with AzureSeverityThreshold to determine:
+      - Confidence score: Calculated as `1 - (maxSeverity / 6)`
+      - Appropriate status: Content is marked inappropriate if maxSeverity ≥ AzureSeverityThreshold
+    - **Safe (0)**: Content may reference sensitive topics like violence, self-harm, sexual content, or hate speech, but in a professional context (e.g., journalistic, scientific, medical) suitable for most audiences.
+    - **Low (2)**: Content may express prejudiced, judgmental, or opinionated views, include offensive language, stereotyping, or low-intensity depictions of harm.
+    - **Medium (4)**: Content may use offensive, mocking, or intimidating language towards specific identity groups, depict instructions or fantasies related to harm, or glorify harm at medium intensity.
+    - **High (6)**: Content may display explicit and severe harmful instructions, actions, damage, or abuse, including endorsement, glorification, promotion of severe harmful acts, or extreme forms of harm.
+    - Example threshold settings:
+      - Setting to 2 means content with Low, Medium or higher severity will be flagged
+      - Setting to 4 means only Medium and High severity content will be flagged
+      - Setting to 6 means only High severity content will be flagged
 
 - **Options**:
   - `includeRawResults`: Include raw API responses in results

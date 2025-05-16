@@ -246,7 +246,6 @@
 <body>
     <cfprocessingdirective pageencoding="UTF-8">
    
-    <cfflush>
     <cfoutput>
      <H2>Server: #server.coldfusion.productName# - #server.coldfusion.productVersion#</h2>
     </cfoutput>
@@ -267,7 +266,8 @@
             </div>
         </div>
     </div>
-    <cfflush>
+    <cfflush />
+    <cfsleep time="1000" /> 
 
     <h1>AI Content Moderation Test</h1>
     
