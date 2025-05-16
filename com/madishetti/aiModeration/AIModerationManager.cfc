@@ -137,9 +137,9 @@ component {
                 "display": {
                     "Appropriate": results.isAppropriate ? "Yes" : "No",
                     "Confidence": results.confidence & "%",
-                    "Flags": arrayToList(results.flags, ", ")
-                },
-                "data": results
+                    "Flags": arrayToList(results.flags, ", "),
+                    "success": results.success
+                }
             };
             
         } catch (any e) {

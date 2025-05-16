@@ -217,3 +217,72 @@ if (result.display.Appropriate == "Yes"){
     writeOutput("Image is inappropriate. Flags: " & result.display.Flags);
 }
 ```
+
+## Return Format
+
+The moderation system returns a structured response with the following format:
+
+```json
+{
+    "Appropriate": false,
+    "flags": [
+        "toxicity",
+        "severe_toxicity",
+        "insult",
+        "profanity",
+        "threat",
+        "hate (Low)",
+        "selfharm (Safe)",
+        "sexual (Safe)",
+        "violence (Medium)"
+    ],
+    "success": true,
+    "confidence": "18.8"
+}
+```
+
+### Response Fields
+
+- `Appropriate`: Boolean indicating if the content is appropriate (true) or inappropriate (false)
+- `flags`: Array of detected issues, including:
+  - Google Perspective flags: "toxicity", "severe_toxicity", "insult", "profanity", "threat" - included only when content is inappropriate and these attributes have scores higher than the googlePerspectiveProbabilityThreshold value
+  - Azure Content Safety flags: "hate", "selfharm", "sexual", "violence" (with severity level in parentheses) - included for both appropriate and inappropriate content
+- `success`: Boolean indicating if the moderation request was successful
+- `confidence`: String representing the combined confidence score as a percentage
+
+### Example Responses
+
+#### Inappropriate Content Example
+```json
+{
+    "Appropriate": false,
+    "flags": [
+        "toxicity",
+        "severe_toxicity",
+        "insult",
+        "profanity",
+        "threat",
+        "hate (Low)",
+        "selfharm (Safe)",
+        "sexual (Safe)",
+        "violence (Medium)"
+    ],
+    "success": true,
+    "confidence": "18.8"
+}
+```
+
+#### Appropriate Content Example
+```json
+{
+    "Appropriate": true,
+    "flags": [
+      "hate (Low)",
+      "selfharm (Low)",
+      "sexual (Low)",
+      "violence (Low)"
+    ],
+    "success": true,
+    "Confidence": "95.5"
+}
+```

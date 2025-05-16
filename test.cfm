@@ -276,7 +276,7 @@
         <cfoutput>
             <cfloop array="#testTexts#" index="text">
                 <cfset result = aiModeration.moderateContent(text, "text")>
-                <div class="result #result.data.isAppropriate ? 'appropriate' : 'inappropriate'#">
+                <div class="result #result.display.Appropriate ? 'appropriate' : 'inappropriate'#">
                     <p><strong>Text:</strong> #text#</p>
                     <p><strong>Appropriate:</strong> #result.display.Appropriate#</p>
                     <p><strong>Confidence:</strong> #result.display.Confidence#</p>
@@ -288,7 +288,7 @@
                     </div>
                     <button class="toggle-raw" onclick="toggleRaw(this)">Show Raw Results</button>
                     <div class="raw-results raw-hidden">
-                        <pre>#serializeJSON(result.data)#</pre>
+                        <pre>#serializeJSON(result)#</pre>
                     </div>
                 </div>
             </cfloop>
@@ -322,7 +322,7 @@
                                         // Remove loading indicator after moderation is complete
                                         document.currentScript.parentElement.querySelector('.loading').style.display = 'none';
                                         // Add appropriate/inappropriate class
-                                        document.currentScript.parentElement.classList.add('#result.data.isAppropriate ? 'appropriate' : 'inappropriate'#');
+                                        document.currentScript.parentElement.classList.add('#result.display.appropriate ? 'appropriate' : 'inappropriate'#');
                                     </script>
                                     <p><strong>Appropriate:</strong> #result.display.Appropriate#</p>
                                     <p><strong>Confidence:</strong> #result.display.Confidence#</p>
@@ -334,7 +334,7 @@
                                     </div>
                                     <button class="toggle-raw" onclick="toggleRaw(this)">Show Raw Results</button>
                                     <div class="raw-results raw-hidden">
-                                        <pre>#serializeJSON(result.data)#</pre>
+                                        <pre>#serializeJSON(result)#</pre>
                                     </div>
                                 <cfcatch type="any">
                                   <cfdump var="#cfcatch#">
