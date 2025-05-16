@@ -14,7 +14,7 @@ A simple and straight-forward library to setup and manage AI-powered content mod
 
 ## Confidence Scoring System
 
-The system provides a unified confidence scoring system that combines results from multiple services:
+The system implements a unified confidence scoring mechanism that intelligently aggregates results from multiple AI services when enabled:
 
 ### Google Perspective API Confidence
 
