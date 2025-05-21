@@ -40,21 +40,21 @@ component {
                 "THREAT": {}
             }
         };
-        
-        // Use Lucee-specific HTTP component if on Lucee to remove url encoding, otherwise use standard cfhttp
-        if (server.coldfusion.productName contains "Lucee") {
-            var httpService = new httpLuceeNoEncoding();
-            var response = httpService.makeLuceeHTTPWithNoEncoding(
-                url=apiUrl,
-                method="POST",
-                headers={"Content-Type": "application/json"},
-                body=serializeJSON(payload)
-            );
-        } else {
-            cfhttp(url=apiUrl, method="POST", result="response", charset="utf-8") {
-                cfhttpparam(type="header", name="Content-Type", value="application/json");
-                cfhttpparam(type="body", value=serializeJSON(payload));
-            }
+
+        var argColleection ={
+            url=apiUrl,
+            method="POST",
+            result="response"
+        }
+        // if Lucee remove url encoding
+        if (server.coldfusion.productName contains "Lucee"){
+            argColleection.encodeurl=false;
+        }
+        cfhttp(attributecollection = argColleection){
+            cfhttpparam(type="header", name="Content-Type", value="application/json");
+            cfhttpparam(type="header", name="Accept", value="application/json");
+            cfhttpparam(type="body", value=serializeJSON(payload));
+
         }
         
         if (response.responseHeader.status_code != 200) {

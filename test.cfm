@@ -267,7 +267,6 @@
         </div>
     </div>
     <cfflush />
-    <cfsleep time="1000" /> 
 
     <h1>AI Content Moderation Test</h1>
     
