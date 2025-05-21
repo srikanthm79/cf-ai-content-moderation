@@ -244,7 +244,7 @@ The moderation system returns a structured response with the following format:
 ### Response Fields
 
 - `Appropriate`: Boolean indicating if the content is appropriate (true) or inappropriate (false)
-- `flags`: Array of detected issues, including:
+- `flags`: List of detected issues, including:
   - Google Perspective flags: "toxicity", "severe_toxicity", "insult", "profanity", "threat" - included only when content is inappropriate and these attributes have scores higher than the googlePerspectiveProbabilityThreshold value
   - Azure Content Safety flags: "hate", "selfharm", "sexual", "violence" (with severity level in parentheses) - included for both appropriate and inappropriate content
 - `success`: Boolean indicating if the moderation request was successful
